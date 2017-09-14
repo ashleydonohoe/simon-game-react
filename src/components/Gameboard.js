@@ -6,7 +6,7 @@ class Gameboard extends React.Component {
     super(props);
     this.state = {
       fullPattern: "",
-      movedUsed: "",
+      movesUsed: "",
       userMoves: "",
       strictModeEnabled: false,
       gameStarted: false,
@@ -28,7 +28,7 @@ class Gameboard extends React.Component {
     console.log("Start pressed");
     this.setUpGame();
     this.setState({
-      gameStatred: true
+      gameStarted: true
     });
 
     this.beginRound();
@@ -45,28 +45,41 @@ class Gameboard extends React.Component {
 
     this.setState({
       fullPattern: sequence,
-      movedUsed: "",
+      movesUsed: "",
       userMoves: "",
-      moveCount: 0
+      moveCount: 0,
+      computerTurn: true,
+      userTurn: false
     });
   }
 
   beginRound() {
     // Show first animation and play sound
-    const firstInSequence = "blue";
-    console.log(firstInSequence);
+    const firstInSequence = "red";
+
+    const updatedMoves = this.state.movesUsed.concat(firstInSequence);
+    const updatedCount = this.state.moveCount + 1;
+
+    // Add move to movesUsed
+    this.setState({
+      movesUsed: updatedMoves,
+      moveCount: updatedCount
+    })
+
+    // Do animation and audio
     const spaceId = "#" + firstInSequence;
-    const audioName = firstInSequence + ".mp3";
+    const audioName = "sounds/" + firstInSequence + ".mp3";
     $(spaceId).addClass("flash");
     $("#file").attr("src", audioName);
+    $("#audio")[0].load();
     $("#audio")[0].play();
-
-
-    // If user selects the correct space, add one to move count
   }
 
   gameSpacePressed(e) {
     console.log(e.target.id);
+
+        // If user selects the correct space, add one to move count
+        // Go to next move
   }
 
   render() {
@@ -89,7 +102,7 @@ class Gameboard extends React.Component {
         </div>
         <div className="sound">
           <audio controls id="audio">
-            <source id="file" src="" type="audio/mpeg"/>
+            <source id="file" src="sounds/blue.mp3" type="audio/mpeg"/>
           </audio>
         </div>
       </div>
