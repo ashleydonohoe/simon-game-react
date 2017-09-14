@@ -1,4 +1,5 @@
 import React from "react";
+import $ from "jquery";
 
 class Gameboard extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class Gameboard extends React.Component {
     this.setUpGame = this.setUpGame.bind(this);
     this.startPressed = this.startPressed.bind(this);
     this.strictModePressed = this.strictModePressed.bind(this);
+    this.beginRound = this.beginRound.bind(this);
   }
 
   strictModePressed() {
@@ -28,6 +30,8 @@ class Gameboard extends React.Component {
     this.setState({
       gameStatred: true
     });
+
+    this.beginRound();
   }
 
   setUpGame() {
@@ -45,6 +49,20 @@ class Gameboard extends React.Component {
       userMoves: "",
       moveCount: 0
     });
+  }
+
+  beginRound() {
+    // Show first animation and play sound
+    const firstInSequence = "blue";
+    console.log(firstInSequence);
+    const spaceId = "#" + firstInSequence;
+    const audioName = firstInSequence + ".mp3";
+    $(spaceId).addClass("flash");
+    $("#file").attr("src", audioName);
+    $("#audio")[0].play();
+
+
+    // If user selects the correct space, add one to move count
   }
 
   gameSpacePressed(e) {
@@ -68,6 +86,11 @@ class Gameboard extends React.Component {
             <div onClick={this.gameSpacePressed} id="yellow" className="yellow game-space"></div>
             <div onClick={this.gameSpacePressed} id="blue" className="blue game-space"></div>
           </div>
+        </div>
+        <div className="sound">
+          <audio controls id="audio">
+            <source id="file" src="" type="audio/mpeg"/>
+          </audio>
         </div>
       </div>
     )

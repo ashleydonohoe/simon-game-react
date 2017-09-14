@@ -120,3 +120,12 @@ button {
 .strict-mode-button {
   background: yellow;
 }
+
+.flash {
+  opacity: 0.5;
+  background: white;
+}
+
+.sound {
+  display: none;
+}
